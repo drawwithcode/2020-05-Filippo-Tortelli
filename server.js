@@ -21,7 +21,8 @@ function newConnection(socket) {
   console.log("new connection: " + socket.client.id);
   socket.on("mouse", mouseMessage);
 
-  function mouseMessage(data) {
-    console.log(data);
+  function mouseMessage(receivedData) {
+    console.log(socket.client.id, receivedData);
+    socket.broadcast.emit("mouseBroadcast", receivedData);
   }
 }

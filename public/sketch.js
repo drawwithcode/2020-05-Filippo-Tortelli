@@ -11,8 +11,9 @@ function newConnection() {
 
 function drawOtherMouse(data) {
   push();
-  fill(data.color);
-  ellipse(data.x,data.y,10);
+  stroke(data.color);
+  strokeWeight(10);
+  line(data.x,data.y,data.pX,data.pY);
   pop();
 }
 
@@ -26,22 +27,32 @@ function preload(){
 
 function setup() {
   createCanvas(windowWidth,windowHeight);
-  background("purple");
+  background("white");
 }
 
 function draw() {
-  // put drawing code here
+  push();
+  fill("black");
+  ellipse(width/2,height/2,100);
+  pop();
 }
 
-function mouseMoved() {
+function refreshSketch() {
+
+}
+
+function mouseDragged() {
   push();
-  fill(myColor);
-  ellipse(mouseX,mouseY,20);
+  stroke(myColor);
+  strokeWeight(20);
+  line(mouseX,mouseY,pmouseX,pmouseY);
   pop();
   //il messaggio da mandare a server.js
   let message = {
     x: mouseX,
     y: mouseY,
+    pX: pmouseX,
+    pY: pmouseY,
     color: myColor,
   }
   //mandare il messaggio

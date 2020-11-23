@@ -16,12 +16,17 @@ let io = socket(server);
 
 io.on("connection", newConnection);
 
+let idNumber = 0;
+let colorSelection = ["#EF9CDA","#1098F7","#FFE347","#F96900","#745296"];
+
 //funzione chiave
 function newConnection(socket) {
   console.log("new connection: " + socket.client.id);
 
-  let clientColor = getRandomColor();
+  //colore al cliente, collegato con un id da i a i+=
+  let clientColor = colorSelection[idNumber%colorSelection.length];
   socket.emit("color", clientColor);
+  idNumber +=1;
 
   socket.on("mouse", mouseMessage);
 

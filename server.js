@@ -29,10 +29,16 @@ function newConnection(socket) {
   idNumber +=1;
 
   socket.on("mouse", mouseMessage);
+  socket.on("username", usernameMessage);
 
   function mouseMessage(receivedData) {
     console.log(socket.client.id, receivedData);
     socket.broadcast.emit("mouseBroadcast", receivedData);
+  }
+
+  function usernameMessage(receivedData) {
+    console.log(socket.client.id, receivedData);
+    socket.broadcast.emit("userBroadcast", receivedData);
   }
 }
 

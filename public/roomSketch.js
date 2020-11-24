@@ -55,6 +55,7 @@ function draw() {
 
   let username = userParameter + " (you)";
   push();
+  textFont("Roboto Mono");
   fill("black");
   stroke(100,100,100);
   strokeWeight(3);
@@ -71,6 +72,7 @@ function draw() {
   pop();
 
   push();
+  textFont("Roboto Mono");
   fill(myColor);
   rect(100,50,60,20);
   fill(myColor);
@@ -80,15 +82,17 @@ function draw() {
   pop();
 
   push();
+  textFont("Roboto Mono");
   fill("white");
   textAlign(LEFT,TOP);
   textSize(20);
   text(username,170,50);
   pop();
 
-  //draw users names
+  //draw the other usernames
   for(let i = 0; i < myPersonalUsers.length; i++) {
     push();
+    textFont("Roboto Mono");
     fill(myPersonalUsers[i].color);
     rect(100,100+(i*30),60,20);
     textAlign(RIGHT,TOP);
@@ -97,6 +101,7 @@ function draw() {
     pop();
 
     push();
+    textFont("Roboto Mono");
     fill("white");
     textAlign(LEFT,TOP);
     textSize(20);

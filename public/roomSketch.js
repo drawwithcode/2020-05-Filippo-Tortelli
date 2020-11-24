@@ -20,18 +20,23 @@ function newConnection() {
 function drawOtherMouse(data) {
   push();
   stroke(data.color);
-  strokeWeight(10);
+  strokeWeight(15);
   line(data.x,data.y,data.pX,data.pY);
   pop();
 }
 
 function setColor(assignedColor) {
   myColor = assignedColor;
+
+  let message = {
+    name: userParameter,
+    color: myColor,
+  }
+  socket.emit("username", message);
 }
 
 function addUser(data) {
   myPersonalUsers.push(data);
-  //data è fatta da due elementi: name e color.
 }
 
 
@@ -41,24 +46,29 @@ function preload(){
 
 function setup() {
   createCanvas(windowWidth,windowHeight);
-  background("white");
+  background("black");
 
   //mando il nome e il colore, per stamparlo su tutti gli sketch dei clienti
-  let message = {
-    name: userParameter,
-    color: myColor,
-  }
-  socket.emit("username", message);
 }
 
 function draw() {
 
   let username = userParameter + " (you)";
   push();
-  fill("gray");
-  rect(75,75,500,height-200,20,20,20,20);
-  pop();
+  fill("black");
+  stroke(100,100,100);
+  strokeWeight(3);
 
+  let rectHeight;
+  if(myPersonalUsers.length==0) {
+    rectHeight = 70;
+  }
+  else {
+    rectHeight = 90 + (myPersonalUsers.length*30);
+  }
+
+  rect(25,25,500,rectHeight,20,20,20,20);
+  pop();
 
   push();
   fill(myColor);
@@ -70,7 +80,7 @@ function draw() {
   pop();
 
   push();
-  fill("black");
+  fill("white");
   textAlign(LEFT,TOP);
   textSize(20);
   text(username,170,50);
@@ -81,14 +91,13 @@ function draw() {
     push();
     fill(myPersonalUsers[i].color);
     rect(100,100+(i*30),60,20);
-    fill("black");
     textAlign(RIGHT,TOP);
     textSize(10);
     text(myPersonalUsers[i].color,90,105+(i*30));
     pop();
 
     push();
-    fill("black");
+    fill("white");
     textAlign(LEFT,TOP);
     textSize(20);
     text(myPersonalUsers[i].name,170,100+(i*30));
@@ -104,7 +113,7 @@ function refreshSketch() {
 function mouseDragged() {
   push();
   stroke(myColor);
-  strokeWeight(20);
+  strokeWeight(15);
   line(mouseX,mouseY,pmouseX,pmouseY);
   pop();
   //il messaggio da mandare a server.js
@@ -117,6 +126,4 @@ function mouseDragged() {
   }
   //mandare il messaggio
   socket.emit("mouse", message);
-
-  //if(condizione) rimandare emit username
 }

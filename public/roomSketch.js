@@ -20,7 +20,11 @@ function newConnection() {
 function drawOtherMouse(data) {
   push();
   stroke(data.color);
-  strokeWeight(15);
+  if(data.color == "black") {
+    strokeWeight(40);
+  } else {
+    strokeWeight(15);
+  }
   line(data.x,data.y,data.pX,data.pY);
   pop();
 }
@@ -53,6 +57,7 @@ function setup() {
 
 function draw() {
 
+  //utente attuale //rettangolo di lettura
   let username = userParameter + " (you)";
   push();
   textFont("Roboto Mono");
@@ -87,6 +92,8 @@ function draw() {
   textAlign(LEFT,TOP);
   textSize(20);
   text(username,170,50);
+  text("Drag to draw!", 550, 50);
+  text("Press C and drag to use the rubber", 550, 80);
   pop();
 
   //draw the other usernames
@@ -111,14 +118,27 @@ function draw() {
 
 }
 
-function refreshSketch() {
-
+function cleanSketch() {
+  //press C to use the gomma
+  //cerchio nero grande con stroke grigia al mouseX e y
+  //cerchio ancora più grande senza stroke al pmouseX e Y
 }
 
 function mouseDragged() {
+  let currentColor = myColor; //per cancellare e disegnare
+
   push();
-  stroke(myColor);
-  strokeWeight(15);
+
+  if(keyIsDown(67)) {
+    strokeWeight(40);
+    currentColor = "black";
+  }
+  else{
+    strokeWeight(15);
+
+    currentColor = myColor;
+  }
+  stroke(currentColor);
   line(mouseX,mouseY,pmouseX,pmouseY);
   pop();
   //il messaggio da mandare a server.js
@@ -127,7 +147,7 @@ function mouseDragged() {
     y: mouseY,
     pX: pmouseX,
     pY: pmouseY,
-    color: myColor,
+    color: currentColor,
   }
   //mandare il messaggio
   socket.emit("mouse", message);

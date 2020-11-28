@@ -6,7 +6,7 @@ let socket = require("socket.io");
 
 let app = express();
 
-let port = 3000; //port for our project (metti 3mila che va bene)
+let port = process.env.PORT || 3000;
 
 let server = app.listen(port);
 
